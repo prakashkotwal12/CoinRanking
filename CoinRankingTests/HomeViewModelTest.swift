@@ -44,6 +44,6 @@ final class MockCoinRepository: CoinRepositoryProtocol {
     }
     func saveFavorite(_ coin: Coin) { }
     func removeFavorite(uuid: String) { }
-    func fetchFavorites() -> [FavCoins] { return [] }
+    func fetchFavorites() -> [FavouritesCoins] { return [] }
     func isFavorite(uuid: String) -> Bool { return false }
 }

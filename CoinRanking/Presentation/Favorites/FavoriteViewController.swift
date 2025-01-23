@@ -11,13 +11,13 @@ import SwiftUI
 
 final class FavoriteViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableviewFavorite: UITableView!
     let viewModel = FavoriteViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate   = self
+        tableviewFavorite.dataSource = self
+        tableviewFavorite.delegate   = self
         bindViewModel()
     }
     
@@ -29,7 +29,7 @@ final class FavoriteViewController: UIViewController {
     private func bindViewModel() {
         viewModel.reloadTable = { [weak self] in
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                self?.tableviewFavorite.reloadData()
             }
         }
     }
@@ -95,8 +95,10 @@ extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
          -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "Unfavorite") { [weak self] _, _, done in
-            let uuid = self?.viewModel.favorites[indexPath.row].uuid ?? ""
-            self?.viewModel.unfavorite(uuid: uuid)
+            guard let unFavUUID = self?.viewModel.favorites[indexPath.row].uuid else{
+                return
+            }
+            self?.viewModel.unfavorite(uuid: unFavUUID)
             done(true)
         }
         return UISwipeActionsConfiguration(actions: [action])

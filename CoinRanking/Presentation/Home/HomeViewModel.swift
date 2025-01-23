@@ -90,7 +90,10 @@ final class HomeViewModel {
         reloadTable?()
     }
     
-    func isFavorite(uuid: String) -> Bool {
-        return repository.isFavorite(uuid: uuid)
+    func isFavorite(uuidString: String) -> Bool {
+//        guard let uuid = UUID(uuidString: uuidString) else{
+//            return false
+//        }
+        return repository.isFavorite(uuid: uuidString)
     }    
 }

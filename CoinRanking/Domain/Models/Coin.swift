@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - Models
 struct CoinResponseModel: Codable {
     let status: String
     let data: CoinData
@@ -26,18 +27,15 @@ struct Coin: Codable {
     let price: String
     let t24hVolume: String
     let sparkline: [String?]
+    
     enum CodingKeys: String, CodingKey {
         case uuid, symbol, name, iconUrl, marketCap, price, sparkline
         case t24hVolume = "24hVolume"
     }
-
-
-    // ...
 }
 
 struct Stats: Codable {
     let total: Int
     let totalCoins: Int
     let totalMarkets: Int
-    // ...
 }

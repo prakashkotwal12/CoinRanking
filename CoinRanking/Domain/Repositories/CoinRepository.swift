@@ -8,17 +8,20 @@
 import Foundation
 import CoreData
 
+
 protocol CoinRepositoryProtocol {
     func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<[Coin], Error>) -> Void)
     func saveFavorite(_ coin: Coin)
     func removeFavorite(uuid: String)
-    func fetchFavorites() -> [FavCoins]
+    func fetchFavorites() -> [FavouriteCoinModel]
     func isFavorite(uuid: String) -> Bool
 }
 
+// MARK: - CoinRepository
 final class CoinRepository: CoinRepositoryProtocol {
     private let network: NetworkManagerProtocol
     private let coreData = CoreDataManager.shared
+    private let favCoinEntity = "FavouritesCoins"
     
     init(network: NetworkManagerProtocol = NetworkManager.shared) {
         self.network = network
@@ -29,48 +32,68 @@ final class CoinRepository: CoinRepositoryProtocol {
     }
     
     func saveFavorite(_ coin: Coin) {
-        let context = coreData.context()
-        let entity = NSEntityDescription.entity(forEntityName: "Coins", in: context)!
+        let context = coreData.context
+        guard let entity = NSEntityDescription.entity(forEntityName: favCoinEntity, in: context) else { return }
+//        guard let uuid = UUID(uuidString: coin.uuid) else{
+//            return
+//        }
         let obj = NSManagedObject(entity: entity, insertInto: context)
         obj.setValue(coin.iconUrl, forKey: "image")
-        obj.setValue(coin.price,   forKey: "price")
-        obj.setValue(coin.uuid,    forKey: "uuid")
-        obj.setValue(coin.name,    forKey: "name")
+        obj.setValue(coin.price, forKey: "price")
+        obj.setValue(coin.uuid, forKey: "uuid")
+        obj.setValue(coin.name, forKey: "name")
         obj.setValue(coin.sparkline, forKey: "sparkline")
+        
         coreData.saveContext()
     }
-    
     func removeFavorite(uuid: String) {
-        let context = coreData.context()
-        let fetch = NSFetchRequest<NSManagedObject>(entityName: "Coins")
-        fetch.predicate = NSPredicate(format: "uuid == %@", uuid)
-        if let results = try? context.fetch(fetch) {
-            for obj in results { context.delete(obj) }
+        let context = coreData.context
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: favCoinEntity)
+        fetchRequest.predicate = NSPredicate(format: "uuid == %@", uuid)
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            results.forEach { context.delete($0) }
             coreData.saveContext()
+        } catch {
+            print("Error removing favorite: \(error)")
+        }
+    }
+
+    func isFavorite(uuid: String) -> Bool {
+        let context = coreData.context
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: favCoinEntity)
+        
+        fetchRequest.predicate = NSPredicate(format: "uuid == %@", uuid)
+        
+        do {
+            return try context.count(for: fetchRequest) > 0
+        } catch {
+            print("Error checking favorite status: \(error)")
+            return false
         }
     }
     
-    func fetchFavorites() -> [FavCoins] {
-        let context = coreData.context()
-        let fetch = NSFetchRequest<NSManagedObject>(entityName: "Coins")
+    func fetchFavorites() -> [FavouriteCoinModel] {
+        let context = coreData.context
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: favCoinEntity)
+        
         do {
-            let results = try context.fetch(fetch)
+            let results = try context.fetch(fetchRequest)
             return results.compactMap { data in
                 guard let image = data.value(forKey: "image") as? String,
                       let price = data.value(forKey: "price") as? String,
-                      let uuid  = data.value(forKey: "uuid") as? String,
-                      let name  = data.value(forKey: "name") as? String,
-                      let spark = data.value(forKey: "sparkline") as? [String?] else { return nil }
-                return FavCoins(image: image, price: price, uuid: uuid, name: name, sparkline: spark)
+                      let uuid = data.value(forKey: "uuid") as? String,
+                      let name = data.value(forKey: "name") as? String
+                else { return nil }
+                
+                let sparkline = data.value(forKey: "sparkline") as? [String] ?? []
+                return FavouriteCoinModel(image: image, price: price, uuid: uuid, name: name, sparkline: sparkline)
             }
-        } catch { return [] }
+        } catch {
+            print("Error fetching favorites: \(error)")
+            return []
+        }
     }
     
-    func isFavorite(uuid: String) -> Bool {
-        let context = coreData.context()
-        let fetch = NSFetchRequest<NSManagedObject>(entityName: "Coins")
-        fetch.predicate = NSPredicate(format: "uuid == %@", uuid)
-        let count = (try? context.count(for: fetch)) ?? 0
-        return count > 0
-    }
 }

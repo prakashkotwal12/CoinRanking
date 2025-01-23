@@ -8,12 +8,15 @@
 import Foundation
 import CoreData
 import UIKit
+import Alamofire
 
+// MARK: - CoreDataManager
 final class CoreDataManager {
     static let shared = CoreDataManager()
+    private let modelName: String = "CoinRanking"
     
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "FavoriteCoins")
+    private lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: modelName)
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
                 fatalError("CoreData Error: \(error), \(error.userInfo)")
@@ -22,15 +25,17 @@ final class CoreDataManager {
         return container
     }()
     
-    func context() -> NSManagedObjectContext {
+    var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
     func saveContext() {
-        let context = persistentContainer.viewContext
         if context.hasChanges {
-            do { try context.save() }
-            catch { fatalError("Unresolved error \(error)") }
+            do {
+                try context.save()
+            } catch {
+                print("Failed to save CoreData context: \(error)")
+            }
         }
     }    
 }

@@ -8,7 +8,7 @@
 import Foundation
 final class FavoriteViewModel {
     private let repository: CoinRepositoryProtocol
-    private(set) var favorites: [FavCoins] = []
+    private(set) var favorites: [FavouriteCoinModel] = []
     
     var reloadTable: (() -> Void)?
     

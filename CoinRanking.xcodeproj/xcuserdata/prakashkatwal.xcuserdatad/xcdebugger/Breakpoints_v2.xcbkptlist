@@ -7,64 +7,126 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "AAF936DB-0F78-4BEC-BE10-02E3426A20FE"
+            uuid = "947A0A6E-A1C9-4B9D-A5DA-CF4FAC823EF0"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoinRanking/Presentation/Home/HomeViewController.swift"
+            filePath = "CoinRanking/Domain/Repositories/CoinRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "fetchFavorites()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1886AE4F-5C68-4283-AA0C-2BBAE999BAA9"
+            uuid = "E1E2773C-8D29-4F60-8E08-6A31ACCAF8A5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoinRanking/Data/Network/NetworkManager.swift"
+            filePath = "CoinRanking/Domain/Repositories/CoinRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "fetchCoins(limit:offset:completion:)"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "fetchFavorites()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E1E2773C-8D29-4F60-8E08-6A31ACCAF8A5 - 24ee6d554d8f6989"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoinRanking.CoinRepository.fetchFavorites() -&gt; Swift.Array&lt;CoinRanking.FavouriteCoinModel&gt;"
+                  moduleName = "CoinRanking.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/prakashkatwal/Downloads/Andela/EquityBankTest/GithubProject/CoinRanking/CoinRanking/Domain/Repositories/CoinRepository.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83">
+               </Location>
+               <Location
+                  uuid = "E1E2773C-8D29-4F60-8E08-6A31ACCAF8A5 - f9af2392ffc2ee46"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.NSManagedObject) -&gt; Swift.Optional&lt;CoinRanking.FavouriteCoinModel&gt; in CoinRanking.CoinRepository.fetchFavorites() -&gt; Swift.Array&lt;CoinRanking.FavouriteCoinModel&gt;"
+                  moduleName = "CoinRanking.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/prakashkatwal/Downloads/Andela/EquityBankTest/GithubProject/CoinRanking/CoinRanking/Domain/Repositories/CoinRepository.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "717EFF0B-9FE4-4F76-807C-29601707F5C9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoinRanking/Data/CoreData/CoreDataManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "saveContext()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "72DE4ED5-EDF8-434C-870A-D72254882F6B"
+            uuid = "A8013FF5-4B02-4C99-AF6E-5FA91AB13C49"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoinRanking/Data/Network/NetworkManager.swift"
+            filePath = "CoinRanking/Data/CoreData/CoreDataManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "fetchCoins(limit:offset:completion:)"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "saveContext()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B228D149-8AC0-4765-AD39-AB08EF5B5610"
+            uuid = "1D2818D6-1CFC-467D-AF23-ECCA3A3F0CF6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoinRanking/Data/Network/NetworkManager.swift"
+            filePath = "CoinRanking/Domain/Repositories/CoinRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "fetchCoins(limit:offset:completion:)"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "saveFavorite(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E31B326E-7B51-4B52-887D-8896EC5CF3C7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoinRanking/Domain/Repositories/CoinRepository.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "saveFavorite(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

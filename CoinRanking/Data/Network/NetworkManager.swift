@@ -8,11 +8,12 @@
 import Foundation
 import Alamofire
 //import SwiftyJSON
-
+// MARK: - Protocols
 protocol NetworkManagerProtocol {
     func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<[Coin], Error>) -> Void)
 }
 
+// MARK: - NetworkManager
 final class NetworkManager: NetworkManagerProtocol {
     static let shared = NetworkManager()
     private let baseUrl = "https://api.coinranking.com/v2/"
@@ -24,13 +25,15 @@ final class NetworkManager: NetworkManagerProtocol {
         ]
         AF.request(baseUrl + "coins",
                    method: .get,
-                   parameters: params).validate().responseDecodable(of: CoinResponseModel.self) { response in
-            switch response.result {
-            case .success(let data):
-                completion(.success(data.data.coins))
-            case .failure(let error):
-                completion(.failure(error))
+                   parameters: params)
+            .validate()
+            .responseDecodable(of: CoinResponseModel.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data.data.coins))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 }

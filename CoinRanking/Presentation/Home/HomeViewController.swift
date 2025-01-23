@@ -100,7 +100,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             // Fallback for older iOS
             let host = UIHostingController(rootView:
                                             CoinRowView(number: indexPath.row + 1, coin: coin,
-                            isFavorite: self.viewModel.isFavorite(uuid: coin.uuid))
+                                                        isFavorite: self.viewModel.isFavorite(uuidString: coin.uuid))
             )
             let cell = UITableViewCell()
             cell.contentView.addSubview(host.view)

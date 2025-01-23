@@ -15,7 +15,7 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak var coinPrice: UILabel!
     
     var coin: Coin?
-    var favoriteCoin: FavCoins?
+    var favoriteCoin: FavouriteCoinModel?
     var isFromFav = false
     
     override func viewDidLoad() {
