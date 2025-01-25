@@ -90,7 +90,7 @@ final class HomeViewModel {
     
     func resetFilter() {
         coins = originalCoins
-        selectedFilter = .price
+        selectedFilter = .name
         selectedSortOrder = .ascending
         reloadTable?()
     }
