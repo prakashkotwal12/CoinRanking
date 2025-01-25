@@ -10,7 +10,7 @@ import CoreData
 
 
 protocol CoinRepositoryProtocol {
-    func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<[Coin], Error>) -> Void)
+    func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<CoinData, Error>) -> Void)
     func saveFavorite(_ coin: Coin)
     func removeFavorite(uuid: String)
     func fetchFavorites() -> [FavouriteCoinModel]
@@ -27,7 +27,7 @@ final class CoinRepository: CoinRepositoryProtocol {
         self.network = network
     }
     
-    func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<[Coin], Error>) -> Void) {
+    func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<CoinData, Error>) -> Void) {
         network.fetchCoins(limit: limit, offset: offset, completion: completion)
     }
     
@@ -80,16 +80,17 @@ final class CoinRepository: CoinRepositoryProtocol {
         
         do {
             let results = try context.fetch(fetchRequest)
-            return results.compactMap { data in
-                guard let image = data.value(forKey: "image") as? String,
-                      let price = data.value(forKey: "price") as? String,
-                      let uuid = data.value(forKey: "uuid") as? String,
-                      let name = data.value(forKey: "name") as? String
-                else { return nil }
-                
-                let sparkline = data.value(forKey: "sparkline") as? [String] ?? []
-                return FavouriteCoinModel(image: image, price: price, uuid: uuid, name: name, sparkline: sparkline)
-            }
+            return []
+//            return results.compactMap { data in
+//                guard let image = data.value(forKey: "image") as? String,
+//                      let price = data.value(forKey: "price") as? String,
+//                      let uuid = data.value(forKey: "uuid") as? String,
+//                      let name = data.value(forKey: "name") as? String
+//                else { return nil }
+//                
+//                let sparkline = data.value(forKey: "sparkline") as? [String] ?? []
+//                return FavouriteCoinModel(image: image, price: price, uuid: uuid, name: name, sparkline: sparkline)
+//            }
         } catch {
             print("Error fetching favorites: \(error)")
             return []

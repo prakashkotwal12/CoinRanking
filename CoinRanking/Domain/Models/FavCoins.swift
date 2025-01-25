@@ -13,4 +13,20 @@ struct FavouriteCoinModel: Codable {
     let uuid: String
     let name: String
     let sparkline: [String?]
+    
+//    let name: String
+//    let color: String?
+//    let iconUrl: String
+//    let marketCap: String
+//    let price: String
+//    let t24hVolume: String
+//    let change: String
+//    let rank: Int
+//    let sparkline: [String?]
+//    let listedAt: Int
+//    let tier: Int
+//    let lowVolume: Bool
+//    let coinrankingUrl: String
+//    let btcPrice: String
+//    let contractAddresses: [String]
 }

@@ -14,12 +14,16 @@ final class HomeViewController: UIViewController {
     @IBOutlet weak var coinListTableView: UITableView!
     let viewModel = HomeViewModel()
     
+    @IBOutlet weak var viewStats: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        viewModel.viewDidLoad()
+        self.title = "Coin List"
         setupTableView()
         bindViewModel()
-        viewModel.viewDidLoad()
+        
+        coinListTableView.register(UINib(nibName: "CoinListsTableViewCell", bundle: nil), forCellReuseIdentifier: "CoinListsTableViewCell")
+        
         
         setupTableFooterView()
     }
@@ -48,80 +52,83 @@ final class HomeViewController: UIViewController {
         viewModel.reloadTable = { [weak self] in
             DispatchQueue.main.async {
                 self?.coinListTableView.reloadData()
+                self?.updateStatsView()
             }
         }
+    }
+    private func updateStatsView() {
+        guard let stats = viewModel.stats else { return }
+        
+        let statsView = StatsView(stats: stats)
+        let hostingController = UIHostingController(rootView: statsView)
+        
+        addChild(hostingController)
+        viewStats.addSubview(hostingController.view)
+        
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            hostingController.view.leadingAnchor.constraint(equalTo: viewStats.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: viewStats.trailingAnchor),
+            hostingController.view.topAnchor.constraint(equalTo: viewStats.topAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: viewStats.bottomAnchor)
+        ])
+        
+        hostingController.didMove(toParent: self)
     }
     
     @IBAction func actionFilter(_ sender: Any) {
         // Present SwiftUI Filter
-        showFilterSwiftUI()
+        //        showFilterSwiftUI()
+        self.performSegue(withIdentifier: "segueFilter", sender: self)
     }
     
-    private func showFilterSwiftUI() {
-        var filterVC: UIHostingController<FilterView>?
-        filterVC = UIHostingController(
-            rootView: FilterView(
-                selectedFilter: .constant("highestPrice"),
-                onFilter: { [weak self] in
-                    self?.viewModel.applyFilterHighestPrice()
-                    filterVC?.dismiss(animated: true) // Use filterVC directly
-                },
-                onReset: { [weak self] in
-                    self?.viewModel.resetFilter()
-                    filterVC?.dismiss(animated: true) // Use filterVC directly
-                },
-                onClose: {
-                    filterVC?.dismiss(animated: true) // Use filterVC directly
-                }
-            )
-        )
-        filterVC?.modalPresentationStyle = .overFullScreen
-        present(filterVC!, animated: true)
-    }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "segueFilter") {
+            let filterVC = segue.destination as! FilterVC
+            filterVC.selectedFilter = viewModel.selectedFilter
+            filterVC.selectedSortOrder = viewModel.selectedSortOrder
+            filterVC.delegateFilter = self
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate/DataSource
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        guard let stats = viewModel.stats else { return nil }
+//        let statsView = StatsView(stats: stats)
+//        let hostingController = UIHostingController(rootView: statsView)
+//        hostingController.view.backgroundColor = .black
+//        return hostingController.view
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 44 // Adjust height as needed
+//    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.coins.count
+        return viewModel.coins.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 84
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let coin = viewModel.coins[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CoinListsTableViewCell")! as! CoinListsTableViewCell
+        let isFav = self.viewModel.isFavorite(uuidString: coin.uuid)
+        cell.updateCellUI(isFav: isFav, coin: coin)
+        return cell
         
-        // iOS16+ hosting configuration approach
-//        if #available(iOS 16.0, *) {
-//            return .init(configuration: .hostingConfiguration {
-//                CoinRowView(coin: coin,
-//                            isFavorite: self.viewModel.isFavorite(uuid: coin.uuid))
-//            })
-//        } else {
-            // Fallback for older iOS
-            let host = UIHostingController(rootView:
-                                            CoinRowView(number: indexPath.row + 1, coin: coin,
-                                                        isFavorite: self.viewModel.isFavorite(uuidString: coin.uuid))
-            )
-            let cell = UITableViewCell()
-            cell.contentView.addSubview(host.view)
-            host.view.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                host.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                host.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-                host.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-                host.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
-            ])
-            cell.selectionStyle = .none
-            return cell
-        //}
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let coin = viewModel.coins[indexPath.row]
-        // navigate to detail
-        let detailVC = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        detailVC.coin = coin
-        navigationController?.pushViewController(detailVC, animated: true)
+        self.pushToCoinDetailView(coin: coin)
     }
     
     // Swipe to favorite
@@ -142,7 +149,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == viewModel.coins.count - 1 { // last row
             guard !viewModel.isLoading else { return }
             showTableFooterLoader(true) // Show loader
-            DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.viewModel.loadNextPage { [weak self] in
                     DispatchQueue.main.async {
                         self?.showTableFooterLoader(false) // Hide loader once loading is done
@@ -167,5 +174,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             coinListTableView.tableFooterView?.isHidden = true
         }
+    }
+    
+    func pushToCoinDetailView(coin: Coin) {
+        let coinDetailView = CoinDetailView(coinModel: coin)
+        let hostingController = UIHostingController(rootView: coinDetailView)
+        self.navigationController?.pushViewController(hostingController, animated: true)
+    }
+}
+
+extension HomeViewController: FilterDelegate {
+    func applyFilter(filter: FilterCategory, sortOrder: SortOrder) {
+        viewModel.selectedFilter = filter
+        viewModel.selectedSortOrder = sortOrder
+        viewModel.applyFilter()
+    }
+    
+    func resetClicked() {
+        viewModel.resetFilter()
     }
 }

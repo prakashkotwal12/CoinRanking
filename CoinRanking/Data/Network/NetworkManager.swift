@@ -10,7 +10,7 @@ import Alamofire
 //import SwiftyJSON
 // MARK: - Protocols
 protocol NetworkManagerProtocol {
-    func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<[Coin], Error>) -> Void)
+    func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<CoinData, Error>) -> Void)
 }
 
 // MARK: - NetworkManager
@@ -18,7 +18,7 @@ final class NetworkManager: NetworkManagerProtocol {
     static let shared = NetworkManager()
     private let baseUrl = "https://api.coinranking.com/v2/"
     
-    func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<[Coin], Error>) -> Void) {
+    func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<CoinData, Error>) -> Void) {
         let params: [String: Any] = [
             "limit": limit,
             "offset": offset
@@ -30,8 +30,9 @@ final class NetworkManager: NetworkManagerProtocol {
             .responseDecodable(of: CoinResponseModel.self) { response in
                 switch response.result {
                 case .success(let data):
-                    completion(.success(data.data.coins))
+                        completion(.success(data.data))
                 case .failure(let error):
+                        print("error: \(error.localizedDescription)")
                     completion(.failure(error))
                 }
             }

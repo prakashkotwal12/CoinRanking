@@ -14,10 +14,40 @@
             filePath = "CoinRanking/Domain/Repositories/CoinRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "fetchFavorites()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "947A0A6E-A1C9-4B9D-A5DA-CF4FAC823EF0 - 24ee6d554d8f68fc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoinRanking.CoinRepository.fetchFavorites() -&gt; Swift.Array&lt;CoinRanking.FavouriteCoinModel&gt;"
+                  moduleName = "CoinRanking.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/prakashkatwal/Downloads/Andela/EquityBankTest/GithubProject/CoinRanking/CoinRanking/Domain/Repositories/CoinRepository.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94">
+               </Location>
+               <Location
+                  uuid = "947A0A6E-A1C9-4B9D-A5DA-CF4FAC823EF0 - 24ee6d554d8f68fc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoinRanking.CoinRepository.fetchFavorites() -&gt; Swift.Array&lt;CoinRanking.FavouriteCoinModel&gt;"
+                  moduleName = "CoinRanking.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/prakashkatwal/Downloads/Andela/EquityBankTest/GithubProject/CoinRanking/CoinRanking/Domain/Repositories/CoinRepository.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -30,13 +60,13 @@
             filePath = "CoinRanking/Domain/Repositories/CoinRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
             landmarkName = "fetchFavorites()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "E1E2773C-8D29-4F60-8E08-6A31ACCAF8A5 - 24ee6d554d8f6989"
+                  uuid = "E1E2773C-8D29-4F60-8E08-6A31ACCAF8A5 - 24ee6d554d8f68fc"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -46,22 +76,22 @@
                   urlString = "file:///Users/prakashkatwal/Downloads/Andela/EquityBankTest/GithubProject/CoinRanking/CoinRanking/Domain/Repositories/CoinRepository.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "83"
-                  endingLineNumber = "83">
+                  startingLineNumber = "94"
+                  endingLineNumber = "94">
                </Location>
                <Location
-                  uuid = "E1E2773C-8D29-4F60-8E08-6A31ACCAF8A5 - f9af2392ffc2ee46"
+                  uuid = "E1E2773C-8D29-4F60-8E08-6A31ACCAF8A5 - 24ee6d554d8f68fc"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.NSManagedObject) -&gt; Swift.Optional&lt;CoinRanking.FavouriteCoinModel&gt; in CoinRanking.CoinRepository.fetchFavorites() -&gt; Swift.Array&lt;CoinRanking.FavouriteCoinModel&gt;"
+                  symbolName = "CoinRanking.CoinRepository.fetchFavorites() -&gt; Swift.Array&lt;CoinRanking.FavouriteCoinModel&gt;"
                   moduleName = "CoinRanking.debug.dylib"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/prakashkatwal/Downloads/Andela/EquityBankTest/GithubProject/CoinRanking/CoinRanking/Domain/Repositories/CoinRepository.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "83"
-                  endingLineNumber = "83">
+                  startingLineNumber = "94"
+                  endingLineNumber = "94">
                </Location>
             </Locations>
          </BreakpointContent>

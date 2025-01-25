@@ -61,21 +61,21 @@ extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
 //            })
 //        } else {
             // fallback to UIHostingController
-            let host = UIHostingController(rootView:
-                CoinRowView(
-                    number: indexPath.row + 1, coin: Coin(uuid: fav.uuid, symbol: "", name: fav.name, iconUrl: fav.image, marketCap: "", price: fav.price, t24hVolume: "", sparkline: fav.sparkline),
-                    isFavorite: true
-                )
-            )
+//            let host = UIHostingController(rootView:
+//                CoinRowView(
+//                    number: indexPath.row + 1, coin: Coin(uuid: fav.uuid, symbol: "", name: fav.name, iconUrl: fav.image, marketCap: "", price: fav.price, t24hVolume: "", sparkline: fav.sparkline),
+//                    isFavorite: true
+//                )
+//            )
             let cell = UITableViewCell()
-            cell.contentView.addSubview(host.view)
-            host.view.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                host.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                host.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-                host.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-                host.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
-            ])
+//            cell.contentView.addSubview(host.view)
+//            host.view.translatesAutoresizingMaskIntoConstraints = false
+//            NSLayoutConstraint.activate([
+//                host.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+//                host.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+//                host.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
+//                host.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
+//            ])
             cell.selectionStyle = .none
             return cell
        // }
@@ -84,10 +84,10 @@ extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Show detail
         let fav = viewModel.favorites[indexPath.row]
-        let detailVC = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        detailVC.favoriteCoin = fav
-        detailVC.isFromFav = true
-        navigationController?.pushViewController(detailVC, animated: true)
+//        let detailVC = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+//        detailVC.favoriteCoin = fav
+//        detailVC.isFromFav = true
+//        navigationController?.pushViewController(detailVC, animated: true)
     }
     
     // Swipe to Unfavorite
@@ -95,10 +95,10 @@ extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
          -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "Unfavorite") { [weak self] _, _, done in
-            guard let unFavUUID = self?.viewModel.favorites[indexPath.row].uuid else{
-                return
-            }
-            self?.viewModel.unfavorite(uuid: unFavUUID)
+//            guard let unFavUUID = self?.viewModel.favorites[indexPath.row].uuid else{
+//                return
+//            }
+           // self?.viewModel.unfavorite(uuid: unFavUUID)
             done(true)
         }
         return UISwipeActionsConfiguration(actions: [action])

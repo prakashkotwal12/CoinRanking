@@ -1,5 +1,5 @@
 {
-  "originHash" : "62751ac9f1fa52d35bb6bb68d845135ce79286a3622b50b214f87be0a62a268f",
+  "originHash" : "a251ce940ab4dc60efdfbba5a4f3efe956f81414395e6109107b1b55c03fa6b7",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "10d06f6a33bafae8c164fbfd1f03391f6d4692b3",
         "version" : "5.20.0"
+      }
+    },
+    {
+      "identity" : "sdwebimagesvgcoder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImageSVGCoder",
+      "state" : {
+        "revision" : "85b5d58ad02c207c496fa34426dc6560d6ae32f0",
+        "version" : "1.8.0"
       }
     },
     {
