@@ -83,7 +83,7 @@ extension FilterVC: UITableViewDataSource, UITableViewDelegate {
         return viewModel.filterCategories.count
     }
     
-    func titleForHeader(in tableView: UITableView) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Filter By"
     }
     

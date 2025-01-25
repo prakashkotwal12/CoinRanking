@@ -119,16 +119,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         self.pushToCoinDetailView(coin: coin)
     }
     
-    // Swipe to favorite
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
-         -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .normal, title: "Favorite") { [weak self] _, _, done in
-            guard let coin = self?.viewModel.coins[indexPath.row] else { return }
-            self?.viewModel.favorite(coin: coin)
+        -> UISwipeActionsConfiguration? {
+        let coin = viewModel.coins[indexPath.row]
+        let isFavorite = viewModel.isFavorite(uuidString: coin.uuid)
+        let action = UIContextualAction(style: .normal, title: isFavorite ? "Unfavorite" : "Favorite") { [weak self] _, _, done in
+            guard let self = self else { return }
+            
+            if isFavorite {
+                self.viewModel.unfavorite(uuid: coin.uuid)
+            } else {
+                self.viewModel.favorite(coin: coin)
+            }
             done(true)
         }
-        action.backgroundColor = .red
+        action.backgroundColor = isFavorite ? .gray : .red
         return UISwipeActionsConfiguration(actions: [action])
     }
     

@@ -41,7 +41,7 @@ class CoinListsTableViewCell: UITableViewCell {
     
     
     func updateCellUI(isFav : Bool, coin : Coin){
-
+        
         if isFav{
             imageFavorite.isHidden = false
         }else{
@@ -54,7 +54,7 @@ class CoinListsTableViewCell: UITableViewCell {
             label24HourPerformance.text = String(format: "%.2f%%", change)
             label24HourPerformance.backgroundColor = change >= 0 ?         UIColor(hex: "#81C784")
             : UIColor(hex: "#F28B82")
-
+            
         } else {
             label24HourPerformance.text = "N/A"
             label24HourPerformance.backgroundColor = .gray
@@ -66,17 +66,21 @@ class CoinListsTableViewCell: UITableViewCell {
         label24HourPerformance.layer.cornerRadius = 6
         label24HourPerformance.layer.masksToBounds = true
         labelCoinName.text = coin.name
-        let price = Double(coin.price)
-        let formatter = NumberFormatter()
-        formatter.locale = Locale.current
-        formatter.numberStyle = .currency
-        
-        if let formattedTipAmount = formatter.string(from: price! as NSNumber) {
-            labelPrice.text = "\(formattedTipAmount)" //+ "     " + coin.t24hVolume
+        if let price = Double(coin.price) {
+            let formatter = NumberFormatter()
+            formatter.locale = Locale(identifier: "en_US")
+            formatter.numberStyle = .currency
+            
+            if let formattedPrice = formatter.string(from: price as NSNumber) {
+                labelPrice.text = formattedPrice
+            } else {
+                labelPrice.text = "N/A"
+            }
+        } else {
+            labelPrice.text = "Invalid Price"
         }
         self.setNeedsLayout()
-        self.layoutIfNeeded()
-        
+        self.layoutIfNeeded()    
     }
 
     func setupImageView(_ imageView: UIImageView, with urlString: String) {
