@@ -87,8 +87,8 @@ final class HomeViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "segueFilter") {
             let filterVC = segue.destination as! FilterVC
-            filterVC.selectedFilter = viewModel.selectedFilter
-            filterVC.selectedSortOrder = viewModel.selectedSortOrder
+            filterVC.viewModel.selectedFilter = viewModel.selectedFilter
+            filterVC.viewModel.selectedSortOrder = viewModel.selectedSortOrder
             filterVC.delegateFilter = self
         }
     }
@@ -96,18 +96,6 @@ final class HomeViewController: UIViewController {
 
 // MARK: - UITableViewDelegate/DataSource
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        guard let stats = viewModel.stats else { return nil }
-//        let statsView = StatsView(stats: stats)
-//        let hostingController = UIHostingController(rootView: statsView)
-//        hostingController.view.backgroundColor = .black
-//        return hostingController.view
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 44 // Adjust height as needed
-//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.coins.count
