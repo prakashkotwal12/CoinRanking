@@ -134,7 +134,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
             done(true)
         }
-        action.backgroundColor = isFavorite ? .gray : .red
+            action.backgroundColor = isFavorite ? .gray : .blue
         return UISwipeActionsConfiguration(actions: [action])
     }
     
