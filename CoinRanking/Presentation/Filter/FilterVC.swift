@@ -13,37 +13,52 @@ protocol FilterDelegate {
 }
 
 class FilterVC: UIViewController {
+    
     @IBOutlet weak var tableViewFilterList: UITableView!
     @IBOutlet weak var buttonFilter: UIButton!
     @IBOutlet weak var buttonReset: UIButton!
     @IBOutlet weak var viewFilter: UIView!
-    
     @IBOutlet weak var segmentSortOrder: UISegmentedControl!
-    var delegateFilter: FilterDelegate?
-    var selectedFilter: FilterCategory = .name
-    var selectedSortOrder: SortOrder = .ascending
     
-    private let filterCategories = FilterCategory.allCases
-    private let sortOrders = SortOrder.allCases
+    
+    var viewModel = FilterViewModel()
+    var delegateFilter: FilterDelegate?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupBindings()
     }
+    
     
     func setupUI() {
         viewFilter.layer.cornerRadius = 30
         viewFilter.layer.masksToBounds = true
         buttonFilter.layer.cornerRadius = 8
         buttonFilter.layer.masksToBounds = true
+        
+        segmentSortOrder.selectedSegmentIndex = viewModel.selectedSortOrder == .ascending ? 0 : 1
     }
     
+    func setupBindings() {
+        viewModel.onFilterSelectionChange = { [weak self] in
+            self?.tableViewFilterList.reloadData()
+        }
+        
+        viewModel.onSortOrderChange = { [weak self] in
+            self?.segmentSortOrder.selectedSegmentIndex = self?.viewModel.selectedSortOrder == .ascending ? 0 : 1
+        }
+    }
+    
+    
     @IBAction func actionFilter(_ sender: Any) {
-        delegateFilter?.applyFilter(filter: selectedFilter, sortOrder: selectedSortOrder)
+        delegateFilter?.applyFilter(filter: viewModel.selectedFilter, sortOrder: viewModel.selectedSortOrder)
         self.dismiss(animated: true)
     }
     
     @IBAction func actionReset(_ sender: Any) {
+        viewModel.resetFilters()
         delegateFilter?.resetClicked()
         self.dismiss(animated: true)
     }
@@ -53,10 +68,11 @@ class FilterVC: UIViewController {
     }
     
     @IBAction func actionSortOrder(_ sender: Any) {
-        selectedSortOrder = segmentSortOrder.selectedSegmentIndex == 0 ? .ascending : .descending
-        delegateFilter?.applyFilter(filter: selectedFilter, sortOrder: selectedSortOrder)
+        viewModel.selectedSortOrder = segmentSortOrder.selectedSegmentIndex == 0 ? .ascending : .descending
+        delegateFilter?.applyFilter(filter: viewModel.selectedFilter, sortOrder: viewModel.selectedSortOrder)
     }
 }
+
 
 extension FilterVC: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -64,26 +80,24 @@ extension FilterVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filterCategories.count
+        return viewModel.filterCategories.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func titleForHeader(in tableView: UITableView) -> String? {
         return "Filter By"
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FilterCell", for: indexPath)
+        let filter = viewModel.filterCategories[indexPath.row]
         
-        let filter = filterCategories[indexPath.row]
         cell.textLabel?.text = filter.rawValue
-        cell.accessoryType = filter == selectedFilter ? .checkmark : .none
-        
+        cell.accessoryType = filter == viewModel.selectedFilter ? .checkmark : .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedFilter = filterCategories[indexPath.row]
-        delegateFilter?.applyFilter(filter: selectedFilter, sortOrder: selectedSortOrder)
-        tableView.reloadData()
+        viewModel.selectedFilter = viewModel.filterCategories[indexPath.row]
+        delegateFilter?.applyFilter(filter: viewModel.selectedFilter, sortOrder: viewModel.selectedSortOrder)
     }
 }
