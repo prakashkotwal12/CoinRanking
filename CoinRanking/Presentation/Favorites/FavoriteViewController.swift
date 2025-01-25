@@ -78,6 +78,7 @@ extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
             self.viewModel.unfavorite(uuid: coinUUID)
             done(true)
         }
+        action.backgroundColor = .gray
         return UISwipeActionsConfiguration(actions: [action])
     }
     
