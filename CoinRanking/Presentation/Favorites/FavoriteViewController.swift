@@ -11,13 +11,12 @@ import SwiftUI
 
 final class FavoriteViewController: UIViewController {
     
-    @IBOutlet weak var tableviewFavorite: UITableView!
-    let viewModel = FavoriteViewModel()
-
+    @IBOutlet weak var tableViewFavorite: UITableView!
+    private let viewModel = FavoriteViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableviewFavorite.dataSource = self
-        tableviewFavorite.delegate   = self
+        setupTableView()
         bindViewModel()
     }
     
@@ -26,81 +25,60 @@ final class FavoriteViewController: UIViewController {
         viewModel.fetchFavorites()
     }
     
+    private func setupTableView() {
+        tableViewFavorite.dataSource = self
+        tableViewFavorite.delegate = self
+        tableViewFavorite.register(UINib(nibName: "CoinListsTableViewCell", bundle: nil),
+                                   forCellReuseIdentifier: "CoinListsTableViewCell")
+        tableViewFavorite.rowHeight = 84 // Consistent row height
+    }
+    
     private func bindViewModel() {
         viewModel.reloadTable = { [weak self] in
             DispatchQueue.main.async {
-                self?.tableviewFavorite.reloadData()
+                self?.tableViewFavorite.reloadData()
             }
         }
     }
 }
 
-// MARK: - UITableViewDataSource/Delegate
+// MARK: - UITableViewDataSource, UITableViewDelegate
 extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
-        viewModel.favorites.count
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.favorites.count
     }
     
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let fav = viewModel.favorites[indexPath.row]
-//        if #available(iOS 16.0, *) {
-//            return .init(configuration: .hostingConfiguration {
-//                CoinRowView(
-//                    coin: Coin(uuid: fav.uuid,
-//                               symbol: "",
-//                               name: fav.name,
-//                               iconUrl: fav.image,
-//                               marketCap: "",
-//                               price: fav.price,
-//                               t24hVolume: "",
-//                               sparkline: fav.sparkline),
-//                    isFavorite: true
-//                )
-//            })
-//        } else {
-            // fallback to UIHostingController
-//            let host = UIHostingController(rootView:
-//                CoinRowView(
-//                    number: indexPath.row + 1, coin: Coin(uuid: fav.uuid, symbol: "", name: fav.name, iconUrl: fav.image, marketCap: "", price: fav.price, t24hVolume: "", sparkline: fav.sparkline),
-//                    isFavorite: true
-//                )
-//            )
-            let cell = UITableViewCell()
-//            cell.contentView.addSubview(host.view)
-//            host.view.translatesAutoresizingMaskIntoConstraints = false
-//            NSLayoutConstraint.activate([
-//                host.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-//                host.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-//                host.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-//                host.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
-//            ])
-            cell.selectionStyle = .none
-            return cell
-       // }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let coin = viewModel.favorites[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CoinListsTableViewCell") as? CoinListsTableViewCell else {
+            return UITableViewCell()
+        }
+        cell.updateCellUI(isFav: true, coin: coin)
+        cell.selectionStyle = .none
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Show detail
-        let fav = viewModel.favorites[indexPath.row]
-//        let detailVC = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-//        detailVC.favoriteCoin = fav
-//        detailVC.isFromFav = true
-//        navigationController?.pushViewController(detailVC, animated: true)
+        let coin = viewModel.favorites[indexPath.row]
+        pushToCoinDetailView(coin: coin)
+    }
+    
+    private func pushToCoinDetailView(coin: Coin) {
+        let coinDetailView = CoinDetailView(coinModel: coin)
+        let hostingController = UIHostingController(rootView: coinDetailView)
+        navigationController?.pushViewController(hostingController, animated: true)
     }
     
     // Swipe to Unfavorite
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
-         -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "Unfavorite") { [weak self] _, _, done in
-//            guard let unFavUUID = self?.viewModel.favorites[indexPath.row].uuid else{
-//                return
-//            }
-           // self?.viewModel.unfavorite(uuid: unFavUUID)
+            guard let self = self else { return }
+            let coinUUID = self.viewModel.favorites[indexPath.row].uuid
+            self.viewModel.unfavorite(uuid: coinUUID)
             done(true)
         }
         return UISwipeActionsConfiguration(actions: [action])
     }
+    
 }

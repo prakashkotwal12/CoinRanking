@@ -8,7 +8,7 @@
 import Foundation
 final class FavoriteViewModel {
     private let repository: CoinRepositoryProtocol
-    private(set) var favorites: [FavouriteCoinModel] = []
+    private(set) var favorites: [Coin] = []
     
     var reloadTable: (() -> Void)?
     
@@ -23,6 +23,6 @@ final class FavoriteViewModel {
     
     func unfavorite(uuid: String) {
         repository.removeFavorite(uuid: uuid)
-        fetchFavorites()
-    }
+        fetchFavorites() // Refresh the list after removal
+    }    
 }

@@ -50,5 +50,5 @@ struct Stats: Codable {
     let totalMarkets: Int
     let totalExchanges: Int
     let totalMarketCap: String
-    let total24hVolume: String    
+    let total24hVolume: String
 }

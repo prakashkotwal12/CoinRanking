@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24C101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="FavouritesCoins" representedClassName="FavouritesCoins" syncable="YES" codeGenerationType="class">
-        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="btcPrice" optional="YES" attributeType="String"/>
+        <attribute name="change" optional="YES" attributeType="String"/>
+        <attribute name="coinrankingUrl" optional="YES" attributeType="String"/>
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="contractAddresses" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="iconUrl" optional="YES" attributeType="String"/>
+        <attribute name="listedAt" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lowVolume" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="marketCap" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="price" optional="YES" attributeType="String"/>
-        <attribute name="sparkline" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="rank" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sparkline" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="symbol" optional="YES" attributeType="String"/>
+        <attribute name="t24hVolume" optional="YES" attributeType="String"/>
+        <attribute name="tier" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="uuid" optional="YES" attributeType="String"/>
     </entity>
 </model>

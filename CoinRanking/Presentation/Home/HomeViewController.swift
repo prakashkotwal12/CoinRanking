@@ -159,15 +159,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-//    if indexPath.row == viewModel.coins.count - 1 { // last row
-//        showTableFooterLoader(true) // Show loader
-//        viewModel.loadNextPage { [weak self] in
-//            DispatchQueue.main.async {
-//                self?.showTableFooterLoader(false) // Hide loader
-//            }
-//        }
-//    }
-    
     private func showTableFooterLoader(_ show: Bool) {
         if show {
             coinListTableView.tableFooterView?.isHidden = false

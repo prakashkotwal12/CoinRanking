@@ -303,7 +303,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Favorites" id="qyW-M0-xbc"/>
                     <connections>
-                        <outlet property="tableviewFavorite" destination="eGa-F4-aL3" id="0qj-mG-emc"/>
+                        <outlet property="tableViewFavorite" destination="eGa-F4-aL3" id="t7l-gB-WUr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XN7-vb-Udk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
