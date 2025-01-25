@@ -37,6 +37,8 @@ struct Coin: Codable {
     let btcPrice: String
     let contractAddresses: [String]
 
+    var isFavorite: Bool = false
+    
     enum CodingKeys: String, CodingKey {
         case uuid, symbol, name, color, iconUrl, marketCap, price, rank, sparkline, listedAt, tier, lowVolume, coinrankingUrl, btcPrice, contractAddresses
         case t24hVolume = "24hVolume"
