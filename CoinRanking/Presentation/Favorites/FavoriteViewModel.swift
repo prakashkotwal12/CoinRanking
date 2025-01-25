@@ -23,6 +23,8 @@ final class FavoriteViewModel {
     
     func unfavorite(uuid: String) {
         repository.removeFavorite(uuid: uuid)
-        fetchFavorites() // Refresh the list after removal
-    }    
+        fetchFavorites()
+        NotificationCenter.default.post(name: .favoriteRemoved, object: nil, userInfo: ["uuid" : uuid])
+    }
+
 }
