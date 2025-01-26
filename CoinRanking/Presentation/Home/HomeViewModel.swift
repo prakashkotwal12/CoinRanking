@@ -45,9 +45,13 @@ final class HomeViewModel {
             switch result {
                 case .success(let response):
                     self.domainCoins += response.coins
-                    self.stats = response.stats
-                    self.originalDomainCoins = self.domainCoins.sorted { $0.name.lowercased() < $1.name.lowercased() }
-                    self.domainCoins = self.originalDomainCoins
+                    self.removeDuplicatesByUUID()
+                    
+                    if self.originalDomainCoins.isEmpty {
+                        self.domainCoins.sort { $0.name.lowercased() < $1.name.lowercased() }
+                        self.originalDomainCoins = self.domainCoins
+                    }
+                    
                     self.applyFavorites()
                     self.updateUICoins()
                     self.reloadTable?()
@@ -126,17 +130,21 @@ final class HomeViewModel {
             completion()
             return
         }
-        
         offset += 20
         limit += 20
+        
         repository.fetchCoins(limit: limit, offset: offset) { [weak self] result in
             guard let self = self else { return }
             switch result {
                 case .success(let response):
                     self.domainCoins += response.coins
+                    self.removeDuplicatesByUUID()
+                    
                     self.stats = response.stats
-                    self.originalDomainCoins = self.domainCoins
                     self.applyFavorites()
+                    
+                    self.originalDomainCoins = self.domainCoins
+                    
                     self.updateUICoins()
                     self.reloadTable?()
                     completion()
@@ -145,6 +153,7 @@ final class HomeViewModel {
             }
         }
     }
+    
     
     @objc private func handleFavoriteChange(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
@@ -170,5 +179,17 @@ final class HomeViewModel {
     
     private func updateUICoins() {
         uiCoins = domainCoins.map { CoinUIModel(from: $0) }
-    }    
+    }
+    
+    private func removeDuplicatesByUUID() {
+        var seen = Set<String>()
+        var uniqueCoins: [CoinDomainModel] = []
+        for coin in domainCoins {
+            if !seen.contains(coin.uuid) {
+                uniqueCoins.append(coin)
+                seen.insert(coin.uuid)
+            }
+        }
+        domainCoins = uniqueCoins
+    }
 }

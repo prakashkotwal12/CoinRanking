@@ -5,7 +5,7 @@
         <attribute name="change" optional="YES" attributeType="String"/>
         <attribute name="coinrankingUrl" optional="YES" attributeType="String"/>
         <attribute name="color" optional="YES" attributeType="String"/>
-        <attribute name="contractAddresses" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="contractAddresses" optional="YES" attributeType="Binary" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="iconUrl" optional="YES" attributeType="String"/>
         <attribute name="listedAt" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="lowVolume" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -13,7 +13,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="price" optional="YES" attributeType="String"/>
         <attribute name="rank" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="sparkline" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="sparkline" optional="YES" attributeType="Binary" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="symbol" optional="YES" attributeType="String"/>
         <attribute name="t24hVolume" optional="YES" attributeType="String"/>
         <attribute name="tier" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>

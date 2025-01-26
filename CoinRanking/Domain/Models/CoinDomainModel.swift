@@ -11,19 +11,20 @@ struct CoinDomainModel: Codable {
     let uuid: String
     let symbol: String
     let name: String
-    let color: String?
     let iconUrl: String
     let marketCap: String
     let price: String
     let t24hVolume: String
     let change: String
     let rank: Int
-    let sparkline: [String?]
     let listedAt: Int
     let tier: Int
     let lowVolume: Bool
     let coinrankingUrl: String
     let btcPrice: String
+    //optional values
+    let color: String?
+    let sparkline: [String]
     let contractAddresses: [String]
     var isFavorite: Bool = false
     
@@ -54,13 +55,6 @@ struct CoinDomainModel: Codable {
             name = try container.decode(String.self, forKey: .name)
         } catch {
             print("❌ Error decoding 'name': \(error.localizedDescription)")
-            throw error
-        }
-        
-        do {
-            color = try container.decodeIfPresent(String.self, forKey: .color)
-        } catch {
-            print("❌ Error decoding 'color': \(error.localizedDescription)")
             throw error
         }
         
@@ -107,13 +101,6 @@ struct CoinDomainModel: Codable {
         }
         
         do {
-            sparkline = try container.decode([String?].self, forKey: .sparkline)
-        } catch {
-            print("❌ Error decoding 'sparkline': \(error.localizedDescription)")
-            throw error
-        }
-        
-        do {
             listedAt = try container.decode(Int.self, forKey: .listedAt)
         } catch {
             print("❌ Error decoding 'listedAt': \(error.localizedDescription)")
@@ -148,15 +135,30 @@ struct CoinDomainModel: Codable {
             throw error
         }
         
+        //optional values decoding
         do {
-            contractAddresses = try container.decodeIfPresent([String].self, forKey: .contractAddresses) ?? []
+            let rawSparkline = try container.decodeIfPresent([String?].self, forKey: .sparkline) ?? []
+            sparkline = rawSparkline.compactMap { $0 }  // filter out nil
         } catch {
-            print("❌ Error decoding 'contractAddresses': \(error.localizedDescription)")
-            throw error
+            sparkline = []
+        }
+        
+        do {
+            let rawAddresses = try container.decodeIfPresent([String?].self, forKey: .contractAddresses) ?? []
+            contractAddresses = rawAddresses.compactMap { $0 }
+        } catch {
+            contractAddresses = []
+        }
+        
+        do {
+            color = try container.decodeIfPresent(String.self, forKey: .color) ?? "#000000"
+        } catch {
+            print("❌ Error decoding 'color': \(error.localizedDescription)")
+            color = "#000000"
         }
         
         isFavorite = false // default
-    }
+    }    
 }
 
 extension CoinDomainModel {
@@ -204,7 +206,7 @@ extension CoinDomainModel {
         t24hVolume: String,
         change: String,
         rank: Int,
-        sparkline: [String?],
+        sparkline: [String],
         listedAt: Int,
         tier: Int,
         lowVolume: Bool,

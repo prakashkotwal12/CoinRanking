@@ -34,7 +34,12 @@ extension CoinUIModel {
         self.symbol = domainModel.symbol
         self.name = domainModel.name
         self.color = domainModel.color
-        self.iconURL = URL(string: domainModel.iconUrl)
+        // Set iconURL to nil if iconUrl is empty or invalid
+        if let url = URL(string: domainModel.iconUrl), !domainModel.iconUrl.isEmpty {
+            self.iconURL = url
+        } else {
+            self.iconURL = nil
+        }
         self.marketCap = domainModel.marketCap
         self.price = domainModel.price
         self.volume24h = domainModel.t24hVolume
@@ -44,11 +49,11 @@ extension CoinUIModel {
         self.sparkline = domainModel.sparkline.compactMap { $0 }
         self.listedAt = DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(domainModel.listedAt)),
                                                       dateStyle: .medium, timeStyle: .none)
-        self.tier = "Tier \(domainModel.tier)" // Convert to a user-friendly string
+        self.tier = "Tier \(domainModel.tier)"
         self.lowVolume = domainModel.lowVolume
         self.coinRankingURL = URL(string: domainModel.coinrankingUrl)
         self.btcPrice = domainModel.btcPrice
-        self.contractAddresses = domainModel.contractAddresses
+        self.contractAddresses = domainModel.contractAddresses.compactMap { $0 }
         self.isFavorite = domainModel.isFavorite
     }    
 }
