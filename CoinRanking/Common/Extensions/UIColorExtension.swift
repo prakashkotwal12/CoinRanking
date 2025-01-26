@@ -33,5 +33,5 @@ extension UIColor {
         }
         
         self.init(red: r, green: g, blue: b, alpha: a)
-    }    
+    }
 }

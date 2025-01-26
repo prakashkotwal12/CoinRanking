@@ -12,14 +12,13 @@ struct ChartTypeFilterView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            // Title
+            
             Text("Select Chart Type")
                 .font(.headline)
                 .foregroundColor(.white)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
             
-            // Chart Type Buttons
             HStack {
                 ForEach(ChartType.allCases, id: \.self) { chartType in
                     Button(action: {
@@ -35,6 +34,5 @@ struct ChartTypeFilterView: View {
                 Spacer()
             }
         }
-//        .padding()
-    }
+    }    
 }

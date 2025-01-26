@@ -8,7 +8,7 @@
 import Foundation
 final class FavoriteViewModel {
     private let repository: CoinRepositoryProtocol
-    private(set) var favorites: [Coin] = []
+    private(set) var favorites: [CoinUIModel] = []
     
     var reloadTable: (() -> Void)?
     
@@ -17,7 +17,8 @@ final class FavoriteViewModel {
     }
     
     func fetchFavorites() {
-        favorites = repository.fetchFavorites()
+        let domainFavorites = repository.fetchFavorites()
+        favorites = domainFavorites.map { CoinUIModel(from: $0) }
         reloadTable?()
     }
     

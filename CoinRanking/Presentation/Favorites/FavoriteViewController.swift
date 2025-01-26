@@ -30,7 +30,7 @@ final class FavoriteViewController: UIViewController {
         tableViewFavorite.delegate = self
         tableViewFavorite.register(UINib(nibName: "CoinListsTableViewCell", bundle: nil),
                                    forCellReuseIdentifier: "CoinListsTableViewCell")
-        tableViewFavorite.rowHeight = 84 // Consistent row height
+        tableViewFavorite.rowHeight = 84
     }
     
     private func bindViewModel() {
@@ -42,7 +42,6 @@ final class FavoriteViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource, UITableViewDelegate
 extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -64,17 +63,16 @@ extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
         pushToCoinDetailView(coin: coin)
     }
     
-    private func pushToCoinDetailView(coin: Coin) {
+    private func pushToCoinDetailView(coin: CoinUIModel) {
         let coinDetailView = CoinDetailView(coinModel: coin)
         let hostingController = UIHostingController(rootView: coinDetailView)
         navigationController?.pushViewController(hostingController, animated: true)
     }
     
-    // Swipe to Unfavorite
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "Unfavorite") { [weak self] _, _, done in
             guard let self = self else { return }
-            let coinUUID = self.viewModel.favorites[indexPath.row].uuid
+            let coinUUID = self.viewModel.favorites[indexPath.row].id
             self.viewModel.unfavorite(uuid: coinUUID)
             done(true)
         }

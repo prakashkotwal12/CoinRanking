@@ -38,7 +38,7 @@ final class HomeViewModelTests: XCTestCase {
 // Mock
 final class MockCoinRepository: CoinRepositoryProtocol {
     func fetchCoins(limit: Int, offset: Int, completion: @escaping (Result<[Coin], Error>) -> Void) {
-        let coin1 = Coin(uuid: "1", symbol: "BTC", name: "Bitcoin", iconUrl: "", marketCap: "", price: "100", t24hVolume: "200", sparkline: [])
+        let coin1 = CoinModel(uuid: "1", symbol: "BTC", name: "Bitcoin", iconUrl: "", marketCap: "", price: "100", t24hVolume: "200", sparkline: [])
         let coin2 = Coin(uuid: "2", symbol: "ETH", name: "Ethereum", iconUrl: "", marketCap: "", price: "50", t24hVolume: "150", sparkline: [])
         completion(.success([coin1, coin2]))
     }

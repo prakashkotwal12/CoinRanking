@@ -7,24 +7,14 @@
 
 import Foundation
 
-enum FilterCategory: String, CaseIterable {
-    case price = "Price"
-    case performance = "24h Performance"
-    case name = "Name"
-}
-
-enum SortOrder: String, CaseIterable {
-    case ascending = "Ascending"
-    case descending = "Descending"
-}
-
 final class HomeViewModel {
     private let repository: CoinRepositoryProtocol
     private(set) public var isLoading = false
     
-    private(set) var coins: [Coin] = []
-    private var originalCoins: [Coin] = []
-    private(set) var stats: Stats?
+    private var domainCoins: [CoinDomainModel] = [] // Domain Models
+    private(set) var uiCoins: [CoinUIModel] = []    // UI Models
+    private var originalDomainCoins: [CoinDomainModel] = []
+    private(set) var stats: StatsModel?
     
     private(set) var favoriteCoinIDs: Set<String> = []
     
@@ -54,51 +44,68 @@ final class HomeViewModel {
             self.isLoading = false
             switch result {
                 case .success(let response):
-                    self.coins += response.coins
+                    self.domainCoins += response.coins
                     self.stats = response.stats
-                    self.originalCoins = self.coins.sorted { $0.name.lowercased() < $1.name.lowercased() }
-                    self.coins = self.originalCoins
+                    self.originalDomainCoins = self.domainCoins.sorted { $0.name.lowercased() < $1.name.lowercased() }
+                    self.domainCoins = self.originalDomainCoins
                     self.applyFavorites()
-                    self.applyFilter()
+                    self.updateUICoins()
                     self.reloadTable?()
-                case .failure:
-                    break
+                case .failure(let apiError):
+                    self.handleError(apiError)
             }
+        }
+    }
+    
+    private func handleError(_ error: APIError) {
+        switch error {
+            case .invalidURL:
+                print("Error: Invalid response or URL from the server.")
+            case .decodingError:
+                print("Error: Unable to decode the response.")
+            case .serverError(let error):
+                print("Server Error: \(error)")
+            case .unknownError(let error):
+                print("Unknown Error: \(error)")
         }
     }
     
     func applyFilter() {
         switch selectedFilter {
             case .price:
-                coins.sort { (Double($0.price) ?? 0) > (Double($1.price) ?? 0) }
+                domainCoins.sort { (Double($0.price) ?? 0) > (Double($1.price) ?? 0) }
                 if selectedSortOrder == .ascending {
-                    coins.reverse()
+                    domainCoins.reverse()
                 }
             case .performance:
-                coins.sort { (Double($0.t24hVolume) ?? 0) > (Double($1.t24hVolume) ?? 0) }
+                domainCoins.sort { (Double($0.t24hVolume) ?? 0) > (Double($1.t24hVolume) ?? 0) }
                 if selectedSortOrder == .ascending {
-                    coins.reverse()
+                    domainCoins.reverse()
                 }
             case .name:
-                coins.sort { $0.name.lowercased() < $1.name.lowercased() }
+                domainCoins.sort { $0.name.lowercased() < $1.name.lowercased() }
                 if selectedSortOrder == .descending {
-                    coins.reverse()
+                    domainCoins.reverse()
                 }
         }
+        updateUICoins()
         reloadTable?()
     }
     
     func resetFilter() {
-        coins = originalCoins
+        domainCoins = originalDomainCoins
         selectedFilter = .name
         selectedSortOrder = .ascending
+        updateUICoins()
         reloadTable?()
     }
     
-    func favorite(coin: Coin) {
-        repository.saveFavorite(coin)
-        favoriteCoinIDs.insert(coin.uuid)
+    func favorite(coin: CoinUIModel) {
+        guard let domainCoin = domainCoins.first(where: { $0.uuid == coin.id }) else { return }
+        repository.saveFavorite(domainCoin)
+        favoriteCoinIDs.insert(domainCoin.uuid)
         applyFavorites()
+        updateUICoins()
         reloadTable?()
     }
     
@@ -106,6 +113,7 @@ final class HomeViewModel {
         repository.removeFavorite(uuid: uuid)
         favoriteCoinIDs.remove(uuid)
         applyFavorites()
+        updateUICoins()
         reloadTable?()
     }
     
@@ -125,11 +133,11 @@ final class HomeViewModel {
             guard let self = self else { return }
             switch result {
                 case .success(let response):
-                    self.coins += response.coins
+                    self.domainCoins += response.coins
                     self.stats = response.stats
-                    self.originalCoins = self.coins
+                    self.originalDomainCoins = self.domainCoins
                     self.applyFavorites()
-                    self.applyFilter()
+                    self.updateUICoins()
                     self.reloadTable?()
                     completion()
                 case .failure:
@@ -143,7 +151,8 @@ final class HomeViewModel {
               let removedUUID = userInfo["uuid"] as? String else { return }
         favoriteCoinIDs.remove(removedUUID)
         applyFavorites()
-        reloadTable?()    
+        updateUICoins()
+        reloadTable?()
     }
     
     private func fetchFavoriteCoinIDs() {
@@ -152,10 +161,14 @@ final class HomeViewModel {
     }
     
     private func applyFavorites() {
-        coins = coins.map { coin in
+        domainCoins = domainCoins.map { coin in
             var updatedCoin = coin
             updatedCoin.isFavorite = favoriteCoinIDs.contains(coin.uuid)
             return updatedCoin
         }
     }
+    
+    private func updateUICoins() {
+        uiCoins = domainCoins.map { CoinUIModel(from: $0) }
+    }    
 }

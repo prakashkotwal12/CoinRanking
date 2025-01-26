@@ -5,13 +5,17 @@
 //  Created by Prakash Kotwal on 23/01/2025.
 //
 
-import Foundation
-import CoreData
 import UIKit
 import Alamofire
+import CoreData
+import Foundation
 
-// MARK: - CoreDataManager
-final class CoreDataManager {
+protocol CoreDataManagerProtocol {
+    var context: NSManagedObjectContext { get }
+    func saveContext()
+}
+
+final class CoreDataManager: CoreDataManagerProtocol {
     static let shared = CoreDataManager()
     private let modelName: String = "CoinRanking"
     
@@ -26,16 +30,15 @@ final class CoreDataManager {
     }()
     
     var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
+        persistentContainer.viewContext
     }
     
     func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                print("Failed to save CoreData context: \(error)")
-            }
+        guard context.hasChanges else { return }
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save CoreData context: \(error)")
         }
     }    
 }

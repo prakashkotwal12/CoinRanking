@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OtherStatisticsView: View {
-    let coin: Coin
+    let coin: CoinUIModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
