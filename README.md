@@ -2,12 +2,11 @@
 This is the CoinRanking app! This app is made with Swift and one can explore cryptocurrency data in a simple and easy-to-use interface. It uses SwiftUI for small views and UIKit for more advanced features. The app has features like charts to see trends, marking coins as favorites, real-time filters to organize data quickly, and saving your data locally with Core Data.
 
 **Instructions for Building and Running the Application**
+
 Follow these steps to build and run the project locally:
-
-**Clone the repo**
-git clone https://github.com/prakashkotwal12/CoinRanking/
-cd CoinRanking
-
+- Clone the repo
+    - git clone https://github.com/prakashkotwal12/CoinRanking/
+    - cd CoinRanking
 - Open CoinRanking.xcodeproj file in Xcode.
 - Before running, need to setup dependencies. We used Swift Package Manager (SPM). Go to File > Swift Packages > Resolve Packages. After that dependencies will be downloaded.
 - Select the CoinRanking scheme and press Cmd+R to run the app. Make sure simulator or device is selected for build.
