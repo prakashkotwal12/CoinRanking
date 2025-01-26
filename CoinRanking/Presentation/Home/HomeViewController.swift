@@ -77,8 +77,6 @@ final class HomeViewController: UIViewController {
     }
     
     @IBAction func actionFilter(_ sender: Any) {
-        // Present SwiftUI Filter
-        //        showFilterSwiftUI()
         self.performSegue(withIdentifier: "segueFilter", sender: self)
     }
     
@@ -94,11 +92,10 @@ final class HomeViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDelegate/DataSource
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.coins.count
+        return viewModel.uiCoins.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -106,47 +103,46 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let coin = viewModel.coins[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CoinListsTableViewCell")! as! CoinListsTableViewCell
-        let isFav = self.viewModel.isFavorite(uuidString: coin.uuid)
-        cell.updateCellUI(isFav: isFav, coin: coin)
+        let coin = viewModel.uiCoins[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CoinListsTableViewCell") as? CoinListsTableViewCell else {
+            fatalError("Failed to dequeue CoinListsTableViewCell")
+        }
+        cell.updateCellUI(isFav: coin.isFavorite, coin: coin)
         return cell
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let coin = viewModel.coins[indexPath.row]
+        let coin = viewModel.uiCoins[indexPath.row]
         self.pushToCoinDetailView(coin: coin)
     }
     
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
-        -> UISwipeActionsConfiguration? {
-        let coin = viewModel.coins[indexPath.row]
-        let isFavorite = viewModel.isFavorite(uuidString: coin.uuid)
+    -> UISwipeActionsConfiguration? {
+        let coin = viewModel.uiCoins[indexPath.row]
+        let isFavorite = coin.isFavorite
         let action = UIContextualAction(style: .normal, title: isFavorite ? "Unfavorite" : "Favorite") { [weak self] _, _, done in
             guard let self = self else { return }
             
             if isFavorite {
-                self.viewModel.unfavorite(uuid: coin.uuid)
+                self.viewModel.unfavorite(uuid: coin.id)
             } else {
                 self.viewModel.favorite(coin: coin)
             }
             done(true)
         }
-            action.backgroundColor = isFavorite ? .gray : .blue
+        action.backgroundColor = isFavorite ? .gray : .blue
         return UISwipeActionsConfiguration(actions: [action])
     }
     
-    // Pagination
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == viewModel.coins.count - 1 { // last row
+        if indexPath.row == viewModel.uiCoins.count - 1 {
             guard !viewModel.isLoading else { return }
-            showTableFooterLoader(true) // Show loader
+            showTableFooterLoader(true)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.viewModel.loadNextPage { [weak self] in
                     DispatchQueue.main.async {
-                        self?.showTableFooterLoader(false) // Hide loader once loading is done
+                        self?.showTableFooterLoader(false)
                     }
                 }
             }
@@ -161,7 +157,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func pushToCoinDetailView(coin: Coin) {
+    private func pushToCoinDetailView(coin: CoinUIModel) {
         let coinDetailView = CoinDetailView(coinModel: coin)
         let hostingController = UIHostingController(rootView: coinDetailView)
         self.navigationController?.pushViewController(hostingController, animated: true)

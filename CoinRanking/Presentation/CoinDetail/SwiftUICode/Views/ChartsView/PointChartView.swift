@@ -1,5 +1,5 @@
 //
-//  PieChartView.swift
+//  PointChartView.swift
 //  CoinRanking
 //
 //  Created by Prakash Kotwal on 25/01/2025.
@@ -8,17 +8,18 @@
 import SwiftUI
 import Charts
 
-struct PieChartView: View {
+struct PointChartView: View {
     let dataPoints: [Double]
     
     var body: some View {
         Chart {
             ForEach(dataPoints.indices, id: \.self) { index in
-                SectorMark(
-                    angle: .value("Value", dataPoints[index])
+                PointMark(
+                    x: .value("Time", index),
+                    y: .value("Price", dataPoints[index])
                 )
-                .foregroundStyle(by: .value("Index", index))
+                .foregroundStyle(.purple)
             }
         }
-    }
+    }    
 }

@@ -10,7 +10,7 @@ import Charts
 
 struct AreaChartView: View {
     let dataPoints: [Double]
-
+    
     var body: some View {
         Chart {
             ForEach(dataPoints.indices, id: \.self) { index in
@@ -21,5 +21,5 @@ struct AreaChartView: View {
                 .foregroundStyle(LinearGradient(colors: [.blue, .clear], startPoint: .top, endPoint: .bottom))
             }
         }
-    }
+    }    
 }

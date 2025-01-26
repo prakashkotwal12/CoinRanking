@@ -21,7 +21,6 @@ class CoinListsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         viewBackground.layer.cornerRadius = 12.0
         viewBackground.layer.masksToBounds = true
         
@@ -29,25 +28,25 @@ class CoinListsTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-
+        
         imageFavorite.isHidden = true
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     
-    func updateCellUI(isFav : Bool, coin : Coin){
+    func updateCellUI(isFav : Bool, coin : CoinUIModel){
         
         if isFav{
             imageFavorite.isHidden = false
         }else{
             imageFavorite.isHidden = true
         }
-        setupImageView(imageIcon, with: coin.iconUrl)
+        if let imageURL = coin.iconURL {
+            setupImageView(imageIcon, with: imageURL.absoluteString)
+        }
         
         if let change = Double(coin.change) {
             
@@ -80,21 +79,18 @@ class CoinListsTableViewCell: UITableViewCell {
             labelPrice.text = "Invalid Price"
         }
         self.setNeedsLayout()
-        self.layoutIfNeeded()    
+        self.layoutIfNeeded()
     }
-
+    
     func setupImageView(_ imageView: UIImageView, with urlString: String) {
-        // Register SVG coder to handle SVG images
         let svgCoder = SDImageSVGCoder.shared
         SDImageCodersManager.shared.addCoder(svgCoder)
-
-        // Apply corner radius and clipping for circular or rounded image
-        imageView.layer.cornerRadius = imageView.frame.size.width / 2 // Circular shape
+        
+        imageView.layer.cornerRadius = imageView.frame.size.width / 2
         imageView.layer.masksToBounds = true
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.layer.borderWidth = 1
-
-        // Set the image with progressive loading
+        
         imageView.sd_setImage(with: URL(string: urlString),
                               placeholderImage: nil,
                               options: [.progressiveLoad, .retryFailed]) { image, error, cacheType, url in
@@ -104,21 +100,5 @@ class CoinListsTableViewCell: UITableViewCell {
                 //print("Image loaded successfully!")
             }
         }
-    }
-    
-    
-}
-
-extension UIView{
-    func dropShadow(color: UIColor, opacity: Float = 0.5, offSet: CGSize, radius: CGFloat = 1, scale: Bool = true) {
-        layer.masksToBounds = false
-        layer.shadowColor = color.cgColor
-        layer.shadowOpacity = opacity
-        layer.shadowOffset = offSet
-        layer.shadowRadius = radius
-
-        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
-        layer.shouldRasterize = true
-        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
-      }
+    }    
 }

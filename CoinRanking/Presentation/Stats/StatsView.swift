@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StatsView: View {
-    let stats: Stats
+    let stats: StatsModel
     @State private var offsetX: CGFloat = 0
     @State private var isPaused: Bool = false
     
@@ -36,14 +36,11 @@ struct StatsView: View {
                 .font(.subheadline)
                 .foregroundColor(.primary)
                 .offset(x: offsetX)
-                .lineLimit(1) // Ensure text stays on a single line
+                .lineLimit(1)
             }
-            .frame(height: 50) // Fixed height for the scrolling content
-            .allowsHitTesting(false) // Disable user interaction
-            // .padding(.horizontal)
+            .frame(height: 50)
+            .allowsHitTesting(false)
         }
-        //.padding()
-       // .background(Color.gray.opacity(0.1))
         .cornerRadius(8)
         .padding(.horizontal)
         .onTapGesture {
@@ -54,14 +51,12 @@ struct StatsView: View {
         }
     }
     
-    // Start the scrolling animation
     private func startAnimation() {
         withAnimation(.linear(duration: 15).repeatForever(autoreverses: false)) {
             offsetX = -UIScreen.main.bounds.width
         }
     }
     
-    // Pause the animation for 3 seconds
     private func pauseAnimation() {
         isPaused = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {

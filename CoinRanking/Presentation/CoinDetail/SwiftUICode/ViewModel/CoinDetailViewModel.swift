@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 final class CoinDetailViewModel: ObservableObject {
-    let coin: Coin
+    let coin: CoinUIModel
     
     @Published var filteredSparkline: [Double] = []
     @Published var selectedTimeFrame: String = "24h"
@@ -17,7 +17,7 @@ final class CoinDetailViewModel: ObservableObject {
     
     private let timeFrames = ["24h", "7d", "30d"]
     
-    init(coin: Coin) {
+    init(coin: CoinUIModel) {
         self.coin = coin
         filterData(for: selectedTimeFrame)
     }
