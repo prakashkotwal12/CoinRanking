@@ -9,6 +9,7 @@ Follow these steps to build and run the project locally:
     - cd CoinRanking
 - Open CoinRanking.xcodeproj file in Xcode.
 - Before running, need to setup dependencies. We used Swift Package Manager (SPM). Go to File > Swift Packages > Resolve Packages. After that dependencies will be downloaded.
+- Note: This project was created using Xcode 16.2, with iOS 17.0 set as the minimum deployment target. To run the project, make sure you’re using Xcode 15.0 or later, as earlier versions do not support iOS 17.0. Double-check your setup to ensure compatibility and avoid any issues while building or running the app.
 - Select the CoinRanking scheme and press Cmd+R to run the app. Make sure simulator or device is selected for build.
 
 **Assumptions and Suggestions**

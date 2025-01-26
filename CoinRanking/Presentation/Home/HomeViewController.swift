@@ -139,7 +139,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == viewModel.uiCoins.count - 1 {
             guard !viewModel.isLoading else { return }
             showTableFooterLoader(true)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            //Adjust the loader display time by setting the duration in seconds. Increase the value to show the loader for a longer period.
+            let timerToLoad = 0.1
+            DispatchQueue.main.asyncAfter(deadline: .now() + timerToLoad) {
                 self.viewModel.loadNextPage { [weak self] in
                     DispatchQueue.main.async {
                         self?.showTableFooterLoader(false)

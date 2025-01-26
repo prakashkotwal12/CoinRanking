@@ -59,10 +59,13 @@ final class CoinRepository: CoinRepositoryProtocol {
                       let lowVolume = data.value(forKey: "lowVolume") as? Bool,
                       let coinrankingUrl = data.value(forKey: "coinrankingUrl") as? String,
                       let btcPrice = data.value(forKey: "btcPrice") as? String,
-                      let sparkline = data.value(forKey: "sparkline") as? [String?],
-                      let contractAddresses = data.value(forKey: "contractAddresses") as? [String] else {
+                      let sparklineData = data.value(forKey: "sparkline") as? Data,
+                      let sparkline = try? JSONDecoder().decode([String].self, from: sparklineData),
+                      let contractAddressesData = data.value(forKey: "contractAddresses") as? Data,
+                      let contractAddresses = try? JSONDecoder().decode([String].self, from: contractAddressesData)
+                else {
                     print("❌ Missing or invalid data for a favorite coin: \(data)")
-                    return nil
+                    return nil    
                 }
                 
                 return CoinDomainModel(
@@ -99,7 +102,7 @@ final class CoinRepository: CoinRepositoryProtocol {
         obj.setValue(coin.uuid, forKey: "uuid")
         obj.setValue(coin.symbol, forKey: "symbol")
         obj.setValue(coin.name, forKey: "name")
-        obj.setValue(coin.color, forKey: "color")
+        obj.setValue(coin.color ?? "#000000", forKey: "color")
         obj.setValue(coin.iconUrl, forKey: "iconUrl")
         obj.setValue(coin.marketCap, forKey: "marketCap")
         obj.setValue(coin.price, forKey: "price")
@@ -111,9 +114,12 @@ final class CoinRepository: CoinRepositoryProtocol {
         obj.setValue(coin.lowVolume, forKey: "lowVolume")
         obj.setValue(coin.coinrankingUrl, forKey: "coinrankingUrl")
         obj.setValue(coin.btcPrice, forKey: "btcPrice")
-        obj.setValue(coin.sparkline, forKey: "sparkline")
-        obj.setValue(coin.contractAddresses, forKey: "contractAddresses")
         
+        let sparklineData = try? JSONEncoder().encode(coin.sparkline)
+        obj.setValue(sparklineData, forKey: "sparkline")
+        let addressesData = try? JSONEncoder().encode(coin.contractAddresses)
+        obj.setValue(addressesData, forKey: "contractAddresses")
+
         coreData.saveContext()
     }
     
