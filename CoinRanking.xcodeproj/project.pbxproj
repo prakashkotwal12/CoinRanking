@@ -31,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		179961972D46508900746714 /* CoinRanking.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = CoinRanking.xctestplan; path = CoinRankingTests/CoinRanking.xctestplan; sourceTree = "<group>"; };
 		17B7841F2D4242C500795C7A /* CoinRanking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoinRanking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17B784382D4242C800795C7A /* CoinRankingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoinRankingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17B784422D4242C800795C7A /* CoinRankingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoinRankingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +100,7 @@
 		17B784162D4242C500795C7A = {
 			isa = PBXGroup;
 			children = (
+				179961972D46508900746714 /* CoinRanking.xctestplan */,
 				17B784212D4242C500795C7A /* CoinRanking */,
 				17B7843B2D4242C800795C7A /* CoinRankingTests */,
 				17B784452D4242C800795C7A /* CoinRankingUITests */,

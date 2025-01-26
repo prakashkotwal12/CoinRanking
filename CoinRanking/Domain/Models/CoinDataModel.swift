@@ -14,6 +14,11 @@ struct CoinDataModel: Codable {
         case stats, coins
     }
     
+    init(stats: StatsModel, coins: [CoinDomainModel]) {
+        self.stats = stats
+        self.coins = coins
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         

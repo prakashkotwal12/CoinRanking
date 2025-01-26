@@ -19,6 +19,15 @@ struct StatsModel: Codable {
         case total, totalCoins, totalMarkets, totalExchanges, totalMarketCap, total24hVolume
     }
     
+    init(total: Int, totalCoins: Int, totalMarkets: Int, totalExchanges: Int, totalMarketCap: String, total24hVolume: String) {
+        self.total = total
+        self.totalCoins = totalCoins
+        self.totalMarkets = totalMarkets
+        self.totalExchanges = totalExchanges
+        self.totalMarketCap = totalMarketCap
+        self.total24hVolume = total24hVolume
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
