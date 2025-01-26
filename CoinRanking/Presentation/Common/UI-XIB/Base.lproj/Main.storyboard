@@ -46,7 +46,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f3A-nE-VAn">
                                         <rect key="frame" x="16" y="336" width="382" height="40"/>
-                                        <color key="backgroundColor" red="0.95686274509803915" green="0.81568627450980391" blue="0.43529411764705883" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="PrimaryPink"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="HMR-LP-hL4"/>
                                         </constraints>
@@ -66,7 +66,7 @@
                                             <segment title="Low to High"/>
                                             <segment title="High to Low"/>
                                         </segments>
-                                        <color key="selectedSegmentTintColor" red="0.95686274509803915" green="0.81568627450980391" blue="0.43529411764705883" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="selectedSegmentTintColor" name="PrimaryPink"/>
                                         <connections>
                                             <action selector="actionSortOrder:" destination="V67-a0-4ka" eventType="valueChanged" id="seG-sZ-lrE"/>
                                         </connections>
