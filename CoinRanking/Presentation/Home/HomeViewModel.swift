@@ -21,7 +21,7 @@ final class HomeViewModel {
     var reloadTable: (() -> Void)?
     
     var selectedFilter: FilterCategory = .name
-    var selectedSortOrder: SortOrder = .ascending
+    var selectedSortOrder: FilterOrder = .ascending
     
     private var limit = 20
     private var offset = 0

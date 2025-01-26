@@ -10,8 +10,8 @@ final class FilterViewModel {
     var filterCategories: [FilterCategory] {
         return FilterCategory.allCases
     }
-    var sortOrders: [SortOrder] {
-        return SortOrder.allCases
+    var sortOrders: [FilterOrder] {
+        return FilterOrder.allCases
     }
     
     var selectedFilter: FilterCategory = .name {
@@ -19,7 +19,7 @@ final class FilterViewModel {
             onFilterSelectionChange?()
         }
     }
-    var selectedSortOrder: SortOrder = .ascending {
+    var selectedSortOrder: FilterOrder = .ascending {
         didSet {
             onSortOrderChange?()
         }

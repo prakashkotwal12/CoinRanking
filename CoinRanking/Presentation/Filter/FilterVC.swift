@@ -8,8 +8,8 @@
 import UIKit
 
 protocol FilterDelegate {
-    func applyFilter(filter: FilterCategory, sortOrder: SortOrder)
-    func resetClicked()    
+    func applyFilter(filter: FilterCategory, sortOrder: FilterOrder)
+    func resetClicked()
 }
 
 class FilterVC: UIViewController {

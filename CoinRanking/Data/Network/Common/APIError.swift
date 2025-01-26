@@ -4,13 +4,13 @@
 //
 //  Created by Prakash Kotwal on 25/01/2025.
 //
-enum APIError: Error, Equatable {
+public enum APIError: Error, Equatable {
     case invalidURL
     case decodingError
     case serverError(String)
     case unknownError(String)
     
-    static func == (lhs: APIError, rhs: APIError) -> Bool {
+    public static func == (lhs: APIError, rhs: APIError) -> Bool {
         switch (lhs, rhs) {
             case (.invalidURL, .invalidURL):
                 return true

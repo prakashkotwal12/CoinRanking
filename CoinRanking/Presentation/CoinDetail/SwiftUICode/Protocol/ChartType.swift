@@ -5,7 +5,7 @@
 //  Created by Prakash Kotwal on 25/01/2025.
 //
 
-enum ChartType: String, CaseIterable {
+public enum ChartType: String, CaseIterable {
     case line = "Line"
     case bar = "Bar"
     case pie = "Pie"
