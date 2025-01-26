@@ -165,7 +165,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeViewController: FilterDelegate {
-    func applyFilter(filter: FilterCategory, sortOrder: SortOrder) {
+    func applyFilter(filter: FilterCategory, sortOrder: FilterOrder) {
         viewModel.selectedFilter = filter
         viewModel.selectedSortOrder = sortOrder
         viewModel.applyFilter()

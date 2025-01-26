@@ -27,7 +27,7 @@ final class FilterViewModelTests: XCTestCase {
     }
     
     func testSortOrders() {
-        XCTAssertEqual(viewModel.sortOrders, SortOrder.allCases, "Sort orders should match all cases in SortOrder")
+        XCTAssertEqual(viewModel.sortOrders, FilterOrder.allCases, "Sort orders should match all cases in SortOrder")
     }
     
     func testDefaultSelectedFilter() {

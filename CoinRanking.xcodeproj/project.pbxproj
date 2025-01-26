@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		176EF1E92D46A02100BF4293 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 179962E42D4697DC00746714 /* Alamofire */; };
+		176EF1EA2D46A02100BF4293 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 179962E62D4697E000746714 /* SDWebImage */; };
+		176EF1EB2D46A02100BF4293 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 179962E82D4697E300746714 /* SDWebImageSwiftUI */; };
+		176EF1EC2D46A02100BF4293 /* SDWebImageSVGCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 179962EA2D4697E900746714 /* SDWebImageSVGCoder */; };
 		17EC70592D424714007C8099 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 17EC70582D424714007C8099 /* Alamofire */; };
 		17EC705B2D424717007C8099 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 17EC705A2D424717007C8099 /* SDWebImage */; };
 		17EC705E2D4249EC007C8099 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 17EC705D2D4249EC007C8099 /* SDWebImageSwiftUI */; };
@@ -91,6 +95,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				176EF1EC2D46A02100BF4293 /* SDWebImageSVGCoder in Frameworks */,
+				176EF1EB2D46A02100BF4293 /* SDWebImageSwiftUI in Frameworks */,
+				176EF1EA2D46A02100BF4293 /* SDWebImage in Frameworks */,
+				176EF1E92D46A02100BF4293 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +204,10 @@
 			);
 			name = CoinRankingUITests;
 			packageProductDependencies = (
+				179962E42D4697DC00746714 /* Alamofire */,
+				179962E62D4697E000746714 /* SDWebImage */,
+				179962E82D4697E300746714 /* SDWebImageSwiftUI */,
+				179962EA2D4697E900746714 /* SDWebImageSVGCoder */,
 			);
 			productName = CoinRankingUITests;
 			productReference = 17B784422D4242C800795C7A /* CoinRankingUITests.xctest */;
@@ -633,6 +645,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		179962E42D4697DC00746714 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17B7847E2D4245F600795C7A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		179962E62D4697E000746714 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17B7847F2D42462B00795C7A /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		179962E82D4697E300746714 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17EC705C2D4249E3007C8099 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+		179962EA2D4697E900746714 /* SDWebImageSVGCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17F0354A2D44F877002DCADD /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */;
+			productName = SDWebImageSVGCoder;
+		};
 		17EC70582D424714007C8099 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 17B7847E2D4245F600795C7A /* XCRemoteSwiftPackageReference "Alamofire" */;
